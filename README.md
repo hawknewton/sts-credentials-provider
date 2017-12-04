@@ -1,6 +1,24 @@
 # Overview
 I wanted to be able to use a simple AWS credentials provider to assume into a role using the credentials in my default profile when using the AWS Athena JDBC driver.
 
+## Building
+
+To build the credential provider as a fat jar:
+```bash
+mvn clean assembly:assembly -DdescriptorId=jar-with-dependencies
+```
+
+## IntelliJ
+
+In IntelliJ, under the Athena driver configuration, add the jar generated from the previous steps under "Driver Files".
+
+You should have two jars under "Driver Files":
+
+ - `AthenaJDBCx.x.x.x.jar`
+ - `sts-credentials-provider-0.0.1-SNAPSHOT-jar-with-dependencies`
+
+## Config
+
 My driver config includes the following jars:
 
 ```
