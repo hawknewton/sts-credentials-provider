@@ -9,11 +9,17 @@ import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder
 
 public class STSAssumeRoleFromProfileCredentialsProvider implements AWSCredentialsProvider {
 	private AWSCredentialsProvider provider;
-	
+
 	public STSAssumeRoleFromProfileCredentialsProvider(String roleArn) {
+		this(roleArn, "us-east-1");
+	}
+
+	public STSAssumeRoleFromProfileCredentialsProvider(String roleArn, String region) {
 		String sessionName =  "STSAssumeRoleFromProfileCredentialsProvider" + System.currentTimeMillis();
 		AWSCredentialsProvider profileCredentials = new ProfileCredentialsProvider();
-		AWSSecurityTokenServiceClientBuilder builder = AWSSecurityTokenServiceClientBuilder.standard().withCredentials(profileCredentials);
+		AWSSecurityTokenServiceClientBuilder builder = AWSSecurityTokenServiceClientBuilder.standard().
+				withCredentials(profileCredentials).
+				withRegion(region);
 		AWSSecurityTokenService service = builder.build();
 		provider = new STSAssumeRoleSessionCredentialsProvider.Builder(roleArn,  sessionName).withStsClient(service).build();
 	}
